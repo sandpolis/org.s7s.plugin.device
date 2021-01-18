@@ -10,9 +10,9 @@
 package com.sandpolis.plugin.device;
 
 import com.sandpolis.core.instance.state.st.STDocument;
-import com.sandpolis.plugin.device.state.VirtDevice;
+import com.sandpolis.core.instance.state.vst.AbstractSTDomainObject;
 
-public class Device extends VirtDevice {
+public class Device extends AbstractSTDomainObject {
 
 	Device(STDocument document) {
 		super(document);

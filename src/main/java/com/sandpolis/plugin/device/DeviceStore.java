@@ -26,7 +26,7 @@ public class DeviceStore extends STCollectionStore<Device> implements Configurab
 	private static final Logger log = LoggerFactory.getLogger(DeviceStore.class);
 
 	public DeviceStore() {
-		super(log);
+		super(log, Device::new);
 	}
 
 	@Override
@@ -35,10 +35,6 @@ public class DeviceStore extends STCollectionStore<Device> implements Configurab
 		configurator.accept(config);
 
 		collection = config.collection;
-	}
-
-	public Device create(Consumer<VirtDevice> configurator) {
-		return add(configurator, Device::new);
 	}
 
 	@ConfigStruct
