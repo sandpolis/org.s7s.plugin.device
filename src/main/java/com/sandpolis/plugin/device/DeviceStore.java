@@ -15,11 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.sandpolis.core.foundation.ConfigStruct;
-import com.sandpolis.core.instance.state.vst.VirtCollection;
+import com.sandpolis.core.instance.state.st.STDocument;
 import com.sandpolis.core.instance.store.ConfigurableStore;
 import com.sandpolis.core.instance.store.STCollectionStore;
 import com.sandpolis.plugin.device.DeviceStore.DeviceStoreConfig;
-import com.sandpolis.plugin.device.state.VirtDevice;
 
 public class DeviceStore extends STCollectionStore<Device> implements ConfigurableStore<DeviceStoreConfig> {
 
@@ -34,13 +33,13 @@ public class DeviceStore extends STCollectionStore<Device> implements Configurab
 		var config = new DeviceStoreConfig();
 		configurator.accept(config);
 
-		collection = config.collection;
+		setDocument(config.collection);
 	}
 
 	@ConfigStruct
 	public static final class DeviceStoreConfig {
 
-		public VirtCollection<VirtDevice> collection;
+		public STDocument collection;
 	}
 
 	public static final DeviceStore DeviceStore = new DeviceStore();
