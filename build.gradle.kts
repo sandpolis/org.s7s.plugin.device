@@ -13,9 +13,9 @@ plugins {
 	id("sandpolis-java")
 	id("sandpolis-module")
 	id("sandpolis-protobuf")
-	id("sandpolis-publish")
 	id("sandpolis-soi")
 	id("sandpolis-plugin")
+	id("sandpolis-publish")
 	id("sandpolis-codegen")
 }
 
