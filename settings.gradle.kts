@@ -9,3 +9,5 @@
 //============================================================================//
 
 rootProject.name = "com.sandpolis.plugin.device"
+
+include("agent:vanilla")
