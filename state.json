@@ -1,6 +1,6 @@
 [
 	{
-		"name": "/profile//device/",
+		"name": "/profile/*/device/*",
 		"attributes": [
 			{
 				"name": "handler",
@@ -10,16 +10,20 @@
 		]
 	},
 	{
-		"name": "/profile//device//http",
+		"name": "/profile/*/device/*/ipmi",
 		"attributes": [
 			{
 				"name": "username",
+				"type": "java.lang.String"
+			},
+			{
+				"name": "password",
 				"type": "java.lang.String"
 			}
 		]
 	},
 	{
-		"name": "/profile//device//snmp2c",
+		"name": "/profile/*/device/*/snmp2c",
 		"attributes": [
 			{
 				"name": "community",
@@ -28,7 +32,7 @@
 		]
 	},
 	{
-		"name": "/profile//device//snmp3",
+		"name": "/profile/*/device/*/snmp3",
 		"attributes": [
 			{
 				"name": "security_level",
