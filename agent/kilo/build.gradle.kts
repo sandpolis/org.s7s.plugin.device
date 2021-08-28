@@ -7,12 +7,27 @@
 //  as published by the Mozilla Foundation.                                   //
 //                                                                            //
 //============================================================================//
-module com.sandpolis.plugin.device.agent.vanilla {
-	exports com.sandpolis.plugin.device.agent.vanilla.snmp.library;
 
-	requires com.google.protobuf;
-	requires com.sandpolis.core.instance;
-	requires com.sandpolis.core.net;
-	requires com.sandpolis.plugin.device;
-	requires org.snmp4j;
+plugins {
+	id("java-library")
+	id("sandpolis-java")
+	id("sandpolis-module")
+	id("sandpolis-soi")
+}
+
+dependencies {
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+
+	// http://www.snmp4j.org
+	implementation("org.snmp4j:snmp4j:3.5.1")
+
+	compileOnly(project.getParent()?.getParent()!!)
+}
+
+eclipse {
+	project {
+		name = "com.sandpolis.plugin.device:agent:kilo"
+		comment = "com.sandpolis.plugin.device:agent:kilo"
+	}
 }

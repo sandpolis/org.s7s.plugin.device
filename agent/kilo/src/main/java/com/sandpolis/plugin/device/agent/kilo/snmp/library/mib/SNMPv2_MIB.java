@@ -7,17 +7,24 @@
 //  as published by the Mozilla Foundation.                                   //
 //                                                                            //
 //============================================================================//
-package com.sandpolis.plugin.device.agent.vanilla.snmp.library;
+package com.sandpolis.plugin.device.agent.kilo.snmp.library.mib;
 
 import java.util.function.Function;
 
 import org.snmp4j.smi.Variable;
 
-import com.sandpolis.plugin.device.agent.vanilla.snmp.library.mib.SNMPv2_MIB;
+public interface SNMPv2_MIB {
 
-public class EdgeOS implements SNMPv2_MIB {
+	public @interface SNMP {
+		String value();
+	}
 
-	Function<Variable, Integer> hrSWRunPerfMem = (variable) -> {
-		return variable.toInt() * 1000;
+	@SNMP("1.3.6.1.2.1.1.1.0")
+	Function<Variable, String> sysDescr = Variable::toString;
+
+	@SNMP("1.3.6.1.2.1.1.3.0")
+	Function<Variable, Integer> sysUpTime = result -> {
+		return result.toInt() * 100;
 	};
+
 }

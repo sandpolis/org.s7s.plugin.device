@@ -7,27 +7,17 @@
 //  as published by the Mozilla Foundation.                                   //
 //                                                                            //
 //============================================================================//
+package com.sandpolis.plugin.device.agent.kilo.snmp.library;
 
-plugins {
-	id("java-library")
-	id("sandpolis-java")
-	id("sandpolis-module")
-	id("sandpolis-soi")
-}
+import java.util.function.Function;
 
-dependencies {
-	testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")
-	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
+import org.snmp4j.smi.Variable;
 
-	// http://www.snmp4j.org
-	implementation("org.snmp4j:snmp4j:3.5.1")
+import com.sandpolis.plugin.device.agent.kilo.snmp.library.mib.SNMPv2_MIB;
 
-	compileOnly(project.getParent()?.getParent()!!)
-}
+public class EdgeOS implements SNMPv2_MIB {
 
-eclipse {
-	project {
-		name = "com.sandpolis.plugin.device:agent:vanilla"
-		comment = "com.sandpolis.plugin.device:agent:vanilla"
-	}
+	Function<Variable, Integer> hrSWRunPerfMem = (variable) -> {
+		return variable.toInt() * 1000;
+	};
 }
