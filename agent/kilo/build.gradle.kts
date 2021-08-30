@@ -23,6 +23,12 @@ dependencies {
 	implementation("org.snmp4j:snmp4j:3.5.1")
 
 	compileOnly(project.getParent()?.getParent()!!)
+
+	if (project.getParent() == null) {
+		compileOnly("com.sandpolis:core.foreign:+")
+	} else {
+		compileOnly(project(":module:com.sandpolis.core.foreign"))
+	}
 }
 
 eclipse {
