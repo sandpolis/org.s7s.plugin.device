@@ -21,6 +21,42 @@ public final class DeviceExe extends Exelet {
 		return null;
 	}
 
+	@Handler(auth = true)
+	public static MessageLiteOrBuilder rq_find_subagents(RQ_FindSubagents rq) throws Exception {
+
+		var rs = RS_FindSubagents.newBuilder();
+
+		// Find hosts with ARP scan
+		for (var host : ArpScan.scan(rq.getInterface())) {
+			if (rq.getCommunicatorsList().contains(CommunicatorType.SSH)) {
+				try {
+					var socket = new Socket(host, 22);
+					try (var out = socket.getOutputStream()) {
+						rs.addSshDevice(RS_FindSubagents.SshDevice.newBuilder()
+							.setIpAddress(host)
+							.setFingerprint(new String(out.toByteArray())));
+					}
+
+				} catch (Exception e) {
+					// Ignore
+				}
+			}
+
+			if (rq.getCommunicatorsList().contains(CommunicatorType.SNMP)) {
+				var socket = new DatagramSocket(45680);
+			}
+
+			if (rq.getCommunicatorsList().contains(CommunicatorType.IPMI)) {
+				var socket = new DatagramSocket(45680);
+
+				var ipmiPacket = ByteBuffer.allocate();
+				ipmiPacket.putByte(6);
+			}
+		}
+
+		return rs;
+	}
+
 	private DeviceExe() {
 	}
 }

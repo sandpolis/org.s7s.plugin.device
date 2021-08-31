@@ -13,7 +13,49 @@ package plugin.device.msg;
 
 option java_package = "com.sandpolis.plugin.device.msg";
 
-message RQ_RegisterDevice {
+message RQ_FindSubagents {
+
+	// An enumeration of all available communicator types.
+	enum CommunicatorType {
+		SSH  = 0;
+		SNMP = 1;
+		IPMI = 2;
+	}
+
+	// If specified, the search will be restricted to the given networks
+	repeated string network = 1;
+
+	// If specified, the search will be restricted to the given communicator types
+	repeated CommunicatorType communicator = 2;
+}
+
+message RS_FindSubagents {
+
+	message SshDevice {
+
+		// The device's IP address
+		string ip_address = 1;
+
+		// The device's SSH fingerprint
+		string fingerprint = 2;
+	}
+
+	message SnmpDevice {
+
+		// The device's IP address
+		string ip_address = 1;
+	}
+
+	message IpmiDevice {
+
+		// The device's IP address
+		string ip_address = 1;
+	}
+
+	repeated SshDevice ssh_device = 1;
+}
+
+message RQ_RegisterSubagent {
 
     oneof target {
         string ip_address = 1;
@@ -21,5 +63,37 @@ message RQ_RegisterDevice {
     }
 
     // The uuid of the gateway instance
-    string gateway = 3;
+    string gateway_uuid = 3;
+}
+
+// Request an IPMI command be executed
+message RQ_IpmiCommand {
+
+	// The IPMI command
+	string command = 1;
+}
+
+// Request an SNMP walk operation be executed
+message RQ_SnmpWalk {
+
+	// The OID to retrieve
+	string oid = 1;
+}
+
+// Response containing the result of a walk operation
+message RS_SnmpWalk {
+
+	message Data {
+
+		// The retrieved OID
+		string oid = 1;
+
+		// The OID's type
+		string type = 2;
+
+		// The OID's value
+		string value = 3;
+	}
+
+	repeated Data data = 1;
 }

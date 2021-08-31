@@ -30,7 +30,7 @@ import com.sandpolis.core.foreign.linux.kernel.socket.socket_h;
 import jdk.incubator.foreign.MemorySegment;
 import jdk.incubator.foreign.ResourceScope;
 
-public class ArpScanLinux {
+public final class ArpScannerLinux {
 
 	private static final byte[] ARP_DEST_ADDRESS = new byte[] { (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff,
 			(byte) 0xff, (byte) 0xff };
@@ -39,6 +39,14 @@ public class ArpScanLinux {
 			(byte) 0x00, (byte) 0x00 };
 
 	private final ResourceScope scope = ResourceScope.newImplicitScope();
+
+	private String ifName;
+
+	private int addresses;
+
+	public ArpScannerLinux() {
+		
+	}
 
 	public static record InterfaceInfo(byte[] ip, byte[] mac, int index) {
 	}
