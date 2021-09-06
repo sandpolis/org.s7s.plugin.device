@@ -39,24 +39,62 @@
 				"type": "java.lang.String"
 			},
 			{
-				"name": "security_name",
+				"name": "username",
 				"type": "java.lang.String"
 			},
 			{
-				"name": "auth_protocol",
+				"name": "authentication_type",
 				"type": "java.lang.String"
 			},
 			{
-				"name": "auth_secret",
+				"name": "authentication_secret",
 				"type": "java.lang.String"
 			},
 			{
-				"name": "priv_protocol",
+				"name": "encryption_type",
 				"type": "java.lang.String"
 			},
 			{
-				"name": "priv_secret",
+				"name": "encryption_secret",
 				"type": "java.lang.String"
+			}
+		]
+	},
+	{
+		"name": "/profile/*/device/*/snmp/oid/*",
+		"attributes": [
+			{
+				"name": "oid",
+				"type": "java.lang.String"
+			},
+			{
+				"name": "type",
+				"type": "java.lang.String"
+			},
+			{
+				"name": "value",
+				"type": "java.lang.String"
+			}
+		]
+	},
+	{
+		"name": "/profile/*/device/scan_operation/*",
+		"attributes": [
+			{
+				"name": "current_interface",
+				"type": "java.lang.String"
+			},
+			{
+				"name": "devices_found",
+				"type": "java.lang.Integer"
+			},
+			{
+				"name": "progress",
+				"type": "java.lang.Double"
+			},
+			{
+				"name": "estimated_completion",
+				"type": "java.lang.Long"
 			}
 		]
 	}

@@ -11,6 +11,9 @@ package com.sandpolis.plugin.device.agent.kilo.ipmi;
 
 public final class IpmiScan {
 
+	public static record IpmiScanResult(String ipmi_version) {
+	}
+
 	private static record RmcpHeader (
 		byte version,
 		byte reserved,
@@ -19,7 +22,7 @@ public final class IpmiScan {
 
 	}
 
-	public void scanHost(String ip_address) {
+	public static Optional<IpmiScanResult> scanHost(String ip_address) {
 
 		var socket = new DatagramSocket(45680);
 

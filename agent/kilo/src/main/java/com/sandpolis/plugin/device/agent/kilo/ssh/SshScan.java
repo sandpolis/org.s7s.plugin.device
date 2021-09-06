@@ -10,4 +10,20 @@
 package com.sandpolis.plugin.device.agent.kilo.ssh;
 
 public final class SshScan {
+
+	public static record SshScanResult(String ssh_version, String fingerprint) {
+	}
+
+	public static Optional<SshScanResult> scanHost(String ip_address) {
+
+		try {
+			var socket = new Socket(host, 22);
+			try (var out = socket.getOutputStream()) {
+			}
+
+		} catch (Exception e) {
+			// Ignore
+		}
+	}
+
 }

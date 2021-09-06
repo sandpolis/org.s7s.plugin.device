@@ -11,4 +11,12 @@ package com.sandpolis.plugin.device.agent.kilo.snmp;
 
 public final class SnmpScan {
 
+	public static record SnmpScanResult(String snmp_version) {
+	}
+
+	public static Optional<SnmpScanResult> scanHost(String ip_address) {
+
+		// Use SNMP4j?
+	}
+
 }

@@ -29,28 +29,26 @@ public final class DeviceExe extends Exelet {
 		// Find hosts with ARP scan
 		for (var host : ArpScan.scan(rq.getInterface())) {
 			if (rq.getCommunicatorsList().contains(CommunicatorType.SSH)) {
-				try {
-					var socket = new Socket(host, 22);
-					try (var out = socket.getOutputStream()) {
-						rs.addSshDevice(RS_FindSubagents.SshDevice.newBuilder()
-							.setIpAddress(host)
-							.setFingerprint(new String(out.toByteArray())));
-					}
-
-				} catch (Exception e) {
-					// Ignore
-				}
+				SshScan.scanHost(host).ifPresent(info -> {
+					rs.addSshDevice(RS_FindSubagents.SshDevice.newBuilder()
+						.setIpAddress(host)
+						.setVersion(info.ssh_version())
+						.setFingerprint(info.fingerprint()));
+				});
 			}
 
 			if (rq.getCommunicatorsList().contains(CommunicatorType.SNMP)) {
-				var socket = new DatagramSocket(45680);
+				SnmpScan.scanHost(host).ifPresent(info -> {
+					rs.addSnmpDevice(RS_FindSubagents.SnmpDevice.newBuilder()
+						.setIpAddress(host));
+				});
 			}
 
 			if (rq.getCommunicatorsList().contains(CommunicatorType.IPMI)) {
-				var socket = new DatagramSocket(45680);
-
-				var ipmiPacket = ByteBuffer.allocate();
-				ipmiPacket.putByte(6);
+				IpmiScan.scanHost(host).ifPresent(info -> {
+					rs.addIpmiDevice(RS_FindSubagents.IpmiDevice.newBuilder()
+						.setIpAddress(host));
+				});
 			}
 		}
 

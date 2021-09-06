@@ -11,7 +11,7 @@ package com.sandpolis.plugin.device.agent.kilo.arp;
 
 public final class ArpScan {
 
-	public static List<String> scan(String interfaceName) {
+	public static List<String> scanNetwork(String interfaceName) {
 
 		switch (SystemUtil.OS_TYPE) {
 		case OsType.LINUX:
