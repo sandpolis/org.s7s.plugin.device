@@ -10,13 +10,16 @@
 package com.sandpolis.plugin.device.agent.kilo.arp;
 
 import java.net.NetworkInterface;
-import java.util.List;
+import java.util.Set;
 
 import com.sandpolis.core.foundation.util.SystemUtil;
 
 public final class ArpScan {
 
-	public static List<String> scanNetwork(NetworkInterface networkInterface) {
+	public static record ArpDevice(String ip, String mac) {
+	}
+
+	public static Set<ArpDevice> scanNetwork(NetworkInterface networkInterface) throws Exception {
 
 		// Check the network size first
 		for (var address : networkInterface.getInterfaceAddresses()) {
@@ -27,7 +30,7 @@ public final class ArpScan {
 
 		switch (SystemUtil.OS_TYPE) {
 		case LINUX:
-			return new ArpScannerLinux(networkInterface, networkInterface.getInterfaceAddresses().get(0)).run();
+			return new ArpScannerLinux(networkInterface, networkInterface.getInterfaceAddresses().get(1)).run();
 		case WINDOWS:
 		default:
 			throw new RuntimeException();

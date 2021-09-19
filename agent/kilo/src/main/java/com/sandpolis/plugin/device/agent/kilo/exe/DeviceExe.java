@@ -55,21 +55,21 @@ public final class DeviceExe extends Exelet {
 		for (var networkInterface : networks) {
 			for (var host : ArpScan.scanNetwork(networkInterface)) {
 				if (rq.getCommunicatorList().contains(CommunicatorType.SSH)) {
-					SshScan.scanHost(host).ifPresent(info -> {
-						rs.addSshDevice(RS_FindSubagents.SshDevice.newBuilder().setIpAddress(host)
+					SshScan.scanHost(host.ip()).ifPresent(info -> {
+						rs.addSshDevice(RS_FindSubagents.SshDevice.newBuilder().setIpAddress(host.ip())
 								.setFingerprint(info.ssh_banner()).setFingerprint(info.fingerprint()));
 					});
 				}
 
 				if (rq.getCommunicatorList().contains(CommunicatorType.SNMP)) {
-					SnmpScan.scanHost(host).ifPresent(info -> {
-						rs.addSnmpDevice(RS_FindSubagents.SnmpDevice.newBuilder().setIpAddress(host));
+					SnmpScan.scanHost(host.ip()).ifPresent(info -> {
+						rs.addSnmpDevice(RS_FindSubagents.SnmpDevice.newBuilder().setIpAddress(host.ip()));
 					});
 				}
 
 				if (rq.getCommunicatorList().contains(CommunicatorType.IPMI)) {
-					IpmiScan.scanHost(host).ifPresent(info -> {
-						rs.addIpmiDevice(RS_FindSubagents.IpmiDevice.newBuilder().setIpAddress(host));
+					IpmiScan.scanHost(host.ip()).ifPresent(info -> {
+						rs.addIpmiDevice(RS_FindSubagents.IpmiDevice.newBuilder().setIpAddress(host.ip()));
 					});
 				}
 			}

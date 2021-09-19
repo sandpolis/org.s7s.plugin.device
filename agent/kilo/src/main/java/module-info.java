@@ -9,6 +9,7 @@
 //============================================================================//
 module com.sandpolis.plugin.device.agent.kilo {
 	exports com.sandpolis.plugin.device.agent.kilo.snmp.library;
+	exports com.sandpolis.plugin.device.agent.kilo.arp;
 
 	requires com.google.protobuf;
 	requires com.sandpolis.core.instance;
@@ -16,6 +17,7 @@ module com.sandpolis.plugin.device.agent.kilo {
 	requires com.sandpolis.plugin.device;
 	requires com.sandpolis.core.foreign;
 	requires org.snmp4j;
+	requires org.slf4j;
 	
 	requires jdk.incubator.foreign;
 	requires com.sandpolis.core.foundation;
