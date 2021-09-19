@@ -78,7 +78,7 @@
 		]
 	},
 	{
-		"name": "/profile/*/device/scan_operation/*",
+		"name": "/profile/*/device/*/scan_operation/*",
 		"attributes": [
 			{
 				"name": "current_interface",

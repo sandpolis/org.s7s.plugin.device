@@ -9,6 +9,8 @@
 //============================================================================//
 package com.sandpolis.plugin.device.agent.kilo.snmp;
 
+import java.util.Optional;
+
 public final class SnmpScan {
 
 	public static record SnmpScanResult(String snmp_version) {
@@ -17,6 +19,7 @@ public final class SnmpScan {
 	public static Optional<SnmpScanResult> scanHost(String ip_address) {
 
 		// Use SNMP4j?
+		return Optional.empty();
 	}
 
 }

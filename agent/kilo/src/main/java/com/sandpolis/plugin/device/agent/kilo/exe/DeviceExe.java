@@ -9,46 +9,69 @@
 //============================================================================//
 package com.sandpolis.plugin.device.agent.kilo.exe;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.protobuf.MessageLiteOrBuilder;
 import com.sandpolis.core.net.exelet.Exelet;
-import com.sandpolis.plugin.device.msg.MsgDevice.RQ_RegisterDevice;
+import com.sandpolis.plugin.device.agent.kilo.arp.ArpScan;
+import com.sandpolis.plugin.device.agent.kilo.ipmi.IpmiScan;
+import com.sandpolis.plugin.device.agent.kilo.snmp.SnmpScan;
+import com.sandpolis.plugin.device.agent.kilo.ssh.SshScan;
+import com.sandpolis.plugin.device.msg.MsgDevice.RQ_FindSubagents;
+import com.sandpolis.plugin.device.msg.MsgDevice.RQ_FindSubagents.CommunicatorType;
+import com.sandpolis.plugin.device.msg.MsgDevice.RS_FindSubagents;
 
 public final class DeviceExe extends Exelet {
 
-	@Handler(auth = true)
-	public static MessageLiteOrBuilder rq_register_device(RQ_RegisterDevice rq) throws Exception {
-		// TODO
-		return null;
-	}
+//	@Handler(auth = true)
+//	public static MessageLiteOrBuilder rq_register_device(RQ_RegisterDevice rq) throws Exception {
+//		// TODO
+//		return null;
+//	}
 
 	@Handler(auth = true)
 	public static MessageLiteOrBuilder rq_find_subagents(RQ_FindSubagents rq) throws Exception {
 
 		var rs = RS_FindSubagents.newBuilder();
 
+		// Determine networks to scan
+		List<NetworkInterface> networks = new ArrayList<>();
+		if (rq.getNetworkCount() == 0) {
+			networks = NetworkInterface.networkInterfaces().collect(Collectors.toList());
+		} else {
+			for (String name : rq.getNetworkList()) {
+				var netIf = NetworkInterface.getByName(name);
+				if (netIf != null) {
+					networks.add(netIf);
+				}
+			}
+		}
+
 		// Find hosts with ARP scan
-		for (var host : ArpScan.scan(rq.getInterface())) {
-			if (rq.getCommunicatorsList().contains(CommunicatorType.SSH)) {
-				SshScan.scanHost(host).ifPresent(info -> {
-					rs.addSshDevice(RS_FindSubagents.SshDevice.newBuilder()
-						.setIpAddress(host)
-						.setVersion(info.ssh_version())
-						.setFingerprint(info.fingerprint()));
-				});
-			}
+		for (var networkInterface : networks) {
+			for (var host : ArpScan.scanNetwork(networkInterface)) {
+				if (rq.getCommunicatorList().contains(CommunicatorType.SSH)) {
+					SshScan.scanHost(host).ifPresent(info -> {
+						rs.addSshDevice(RS_FindSubagents.SshDevice.newBuilder().setIpAddress(host)
+								.setFingerprint(info.ssh_banner()).setFingerprint(info.fingerprint()));
+					});
+				}
 
-			if (rq.getCommunicatorsList().contains(CommunicatorType.SNMP)) {
-				SnmpScan.scanHost(host).ifPresent(info -> {
-					rs.addSnmpDevice(RS_FindSubagents.SnmpDevice.newBuilder()
-						.setIpAddress(host));
-				});
-			}
+				if (rq.getCommunicatorList().contains(CommunicatorType.SNMP)) {
+					SnmpScan.scanHost(host).ifPresent(info -> {
+						rs.addSnmpDevice(RS_FindSubagents.SnmpDevice.newBuilder().setIpAddress(host));
+					});
+				}
 
-			if (rq.getCommunicatorsList().contains(CommunicatorType.IPMI)) {
-				IpmiScan.scanHost(host).ifPresent(info -> {
-					rs.addIpmiDevice(RS_FindSubagents.IpmiDevice.newBuilder()
-						.setIpAddress(host));
-				});
+				if (rq.getCommunicatorList().contains(CommunicatorType.IPMI)) {
+					IpmiScan.scanHost(host).ifPresent(info -> {
+						rs.addIpmiDevice(RS_FindSubagents.IpmiDevice.newBuilder().setIpAddress(host));
+					});
+				}
 			}
 		}
 

@@ -7,7 +7,7 @@
 //  as published by the Mozilla Foundation.                                   //
 //                                                                            //
 //============================================================================//
-package com.sandpolis.plugin.device.agent.kilo;
+package com.sandpolis.plugin.device.agent.kilo.arp;
 
 import static com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll.sll_family$set;
 import static com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll.sll_halen$set;
@@ -18,13 +18,16 @@ import static com.sandpolis.core.foreign.linux.kernel.socket.socket_h.recvfrom;
 import static com.sandpolis.core.foreign.linux.kernel.socket.socket_h.sendto;
 import static com.sandpolis.core.foreign.linux.kernel.socket.socket_h.socket;
 
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.nio.ByteOrder;
 import java.util.List;
 
+import com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll;
 import com.sandpolis.core.foreign.linux.kernel.if_ether.if_ether_h;
 import com.sandpolis.core.foreign.linux.kernel.if_packet.if_packet_h;
 import com.sandpolis.core.foreign.linux.kernel.inet.inet_h;
-import com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll;
 import com.sandpolis.core.foreign.linux.kernel.socket.socket_h;
 
 import jdk.incubator.foreign.MemorySegment;
@@ -40,31 +43,31 @@ public final class ArpScannerLinux {
 
 	private final ResourceScope scope = ResourceScope.newImplicitScope();
 
-	private String ifName;
+	private final NetworkInterface networkInterface;
+
+	private final InterfaceAddress interfaceAddress;
 
 	private int addresses;
 
-	public ArpScannerLinux() {
-		
+	public ArpScannerLinux(NetworkInterface networkInterface, InterfaceAddress interfaceAddress) {
+		this.networkInterface = networkInterface;
+		this.interfaceAddress = interfaceAddress;
 	}
 
-	public static record InterfaceInfo(byte[] ip, byte[] mac, int index) {
-	}
-
-	public void send_arp(int fd, InterfaceInfo if_info, byte[] dest_ip) {
+	public void send_arp(int fd, byte[] dest_ip) throws SocketException {
 
 		var sockaddr = sockaddr_ll.allocate(scope);
 		sll_family$set(sockaddr, (short) socket_h.AF_PACKET());
-		sll_ifindex$set(sockaddr, if_info.index());
+		sll_ifindex$set(sockaddr, networkInterface.getIndex());
 		sll_pkttype$set(sockaddr, (byte) if_packet_h.PACKET_BROADCAST());
-		sll_halen$set(sockaddr, (byte) if_info.mac().length);
+		sll_halen$set(sockaddr, (byte) networkInterface.getHardwareAddress().length);
 
 		var packet = MemorySegment.allocateNative(42, scope);
 
 		// Write ethernet header
 		var eth_header = packet.asSlice(0, 14).asByteBuffer().order(ByteOrder.BIG_ENDIAN);
 		eth_header.put(ARP_DEST_ADDRESS);
-		eth_header.put(if_info.mac());
+		eth_header.put(networkInterface.getHardwareAddress());
 		eth_header.putShort((short) if_ether_h.ETH_P_ARP());
 
 		// Write ARP header
@@ -74,8 +77,8 @@ public final class ArpScannerLinux {
 		arp_header.putShort((short) 6);
 		arp_header.putShort((short) 4);
 		arp_header.putShort((short) 1);
-		eth_header.put(if_info.mac());
-		eth_header.put(if_info.ip());
+		eth_header.put(networkInterface.getHardwareAddress());
+		eth_header.put(interfaceAddress.getAddress().getAddress());
 		eth_header.put(ARP_TARGET_ADDRESS);
 		eth_header.put(dest_ip);
 
@@ -84,7 +87,7 @@ public final class ArpScannerLinux {
 		}
 	}
 
-	public int bind_arp(InterfaceInfo if_info) {
+	public int bind_arp() {
 
 		int fd = socket(socket_h.AF_PACKET(), socket_h.SOCK_RAW(), inet_h.htons((short) if_ether_h.ETH_P_ARP()));
 		if (fd < 1) {
@@ -114,19 +117,9 @@ public final class ArpScannerLinux {
 		// TODO
 	}
 
-	public InterfaceInfo query_interface(String if_name) {
+	public List<String> run() {
 
-		var if_request = ifreq.allocate(scope);
-		ifreq.ifr_ifrn.ifrn_name$slice(null);
-		// TODO
-
-		return null;
-	}
-
-	public List<String> scan(String first_address, int size) {
-
-		var if_info = query_interface(null);
-		int fd = bind_arp(if_info);
+		int fd = bind_arp();
 		// TODO
 		return null;
 	}

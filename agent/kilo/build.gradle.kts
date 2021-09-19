@@ -12,7 +12,6 @@ plugins {
 	id("java-library")
 	id("sandpolis-java")
 	id("sandpolis-module")
-	id("sandpolis-soi")
 }
 
 dependencies {
