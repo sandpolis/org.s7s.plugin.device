@@ -12,7 +12,7 @@ package com.sandpolis.plugin.device.agent.kilo.arp;
 import java.net.NetworkInterface;
 import java.util.Set;
 
-import com.sandpolis.core.foundation.util.SystemUtil;
+import com.sandpolis.core.foundation.S7SSystem;
 
 public final class ArpScan {
 
@@ -28,7 +28,7 @@ public final class ArpScan {
 			}
 		}
 
-		switch (SystemUtil.OS_TYPE) {
+		switch (S7SSystem.OS_TYPE) {
 		case LINUX:
 			return new ArpScannerLinux(networkInterface, networkInterface.getInterfaceAddresses().get(1)).run();
 		case WINDOWS:

@@ -14,7 +14,6 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sandpolis.core.foundation.ConfigStruct;
 import com.sandpolis.core.instance.state.st.STDocument;
 import com.sandpolis.core.instance.store.ConfigurableStore;
 import com.sandpolis.core.instance.store.STCollectionStore;
@@ -30,16 +29,18 @@ public class DeviceStore extends STCollectionStore<Device> implements Configurab
 
 	@Override
 	public void init(Consumer<DeviceStoreConfig> configurator) {
-		var config = new DeviceStoreConfig();
-		configurator.accept(config);
+		var config = new DeviceStoreConfig(configurator);
 
 		setDocument(config.collection);
 	}
 
-	@ConfigStruct
 	public static final class DeviceStoreConfig {
 
 		public STDocument collection;
+
+		private DeviceStoreConfig(Consumer<DeviceStoreConfig> configurator) {
+			configurator.accept(this);
+		}
 	}
 
 	public static final DeviceStore DeviceStore = new DeviceStore();

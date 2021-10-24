@@ -20,7 +20,9 @@ message RQ_FindSubagents {
 		SSH   = 0;
 		SNMP  = 1;
 		IPMI  = 2;
-		ONVIF = 3;
+		HTTP  = 3;
+		ONVIF = 4;
+		RTSP  = 5;
 	}
 
 	// If specified, the search will be restricted to the given networks
@@ -54,6 +56,22 @@ message RS_FindSubagents {
 	}
 
 	message OnvifDevice {
+
+		// The device's IP address
+		string ip_address = 1;
+	}
+
+	message HttpDevice {
+
+		// The device's IP address
+		string ip_address = 1;
+
+		// Whether HTTPS is supported
+		bool secure = 2;
+	}
+
+	message RtspDevice {
+
 		// The device's IP address
 		string ip_address = 1;
 	}
@@ -64,7 +82,11 @@ message RS_FindSubagents {
 
 	repeated IpmiDevice ipmi_device = 3;
 
-	repeated OnvifDevice onvif_device = 4;
+	repeated HttpDevice http_device = 4;
+
+	repeated OnvifDevice onvif_device = 5;
+
+	repeated RtspDevice rtsp_device = 6;
 }
 
 message RQ_RegisterSubagent {
@@ -76,6 +98,10 @@ message RQ_RegisterSubagent {
 
     // The uuid of the gateway instance
     string gateway_uuid = 3;
+}
+
+enum RS_RegisterSubagent {
+	REGISTER_SUBAGENT_OK = 0;
 }
 
 // Request an IPMI command be executed

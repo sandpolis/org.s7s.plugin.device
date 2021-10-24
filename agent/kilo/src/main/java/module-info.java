@@ -18,7 +18,7 @@ module com.sandpolis.plugin.device.agent.kilo {
 	requires com.sandpolis.core.foreign;
 	requires org.snmp4j;
 	requires org.slf4j;
-	
+
 	requires jdk.incubator.foreign;
 	requires com.sandpolis.core.foundation;
 }

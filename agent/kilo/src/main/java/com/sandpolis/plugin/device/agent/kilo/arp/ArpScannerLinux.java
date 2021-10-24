@@ -36,7 +36,7 @@ import com.sandpolis.core.foreign.linux.kernel.if_ether.if_ether_h;
 import com.sandpolis.core.foreign.linux.kernel.if_packet.if_packet_h;
 import com.sandpolis.core.foreign.linux.kernel.inet.inet_h;
 import com.sandpolis.core.foreign.linux.kernel.socket.socket_h;
-import com.sandpolis.core.foundation.util.NetUtil;
+import com.sandpolis.core.foundation.S7SIPAddress;
 import com.sandpolis.plugin.device.agent.kilo.arp.ArpScan.ArpDevice;
 
 import jdk.incubator.foreign.MemoryAddress;
@@ -189,6 +189,8 @@ public final class ArpScannerLinux {
 
 	public Set<ArpDevice> run() throws Exception {
 
+		var address = S7SIPAddress.of(interfaceAddress.getAddress());
+
 		Set<ArpDevice> results = new HashSet<>();
 
 		int fd = bind_arp();
@@ -206,15 +208,15 @@ public final class ArpScannerLinux {
 		});
 		recvThread.start();
 
-		int firstAddress = NetUtil.getFirstAddressInt(interfaceAddress);
-		int lastAddress = NetUtil.getLastAddressInt(interfaceAddress);
+		int firstAddress = address.getFirstAddressInNetwork(interfaceAddress.getNetworkPrefixLength()).asInt();
+		int lastAddress = address.getLastAddressInNetwork(interfaceAddress.getNetworkPrefixLength()).asInt();
 		log.debug("Preparing to scan network of size: {}", lastAddress - firstAddress);
 
 		// Start sending
 		for (int i = firstAddress; i <= lastAddress; i++) {
-			var address = ByteBuffer.allocate(4).putInt(i).array();
-			if (!Arrays.equals(address, interfaceAddress.getAddress().getAddress())) {
-				send_arp(fd, address);
+			var a = S7SIPAddress.of(i);
+			if (!a.equals(address)) {
+				send_arp(fd, a.asBytes());
 			}
 		}
 
