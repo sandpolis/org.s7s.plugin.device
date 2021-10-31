@@ -23,6 +23,7 @@ message RQ_FindSubagents {
 		HTTP  = 3;
 		ONVIF = 4;
 		RTSP  = 5;
+		WOL   = 6;
 	}
 
 	// If specified, the search will be restricted to the given networks
@@ -76,6 +77,15 @@ message RS_FindSubagents {
 		string ip_address = 1;
 	}
 
+	message WolDevice {
+
+		// The device's IP address
+		string ip_address = 1;
+
+		// The device's MAC address
+		string mac_address = 2;
+	}
+
 	repeated SshDevice ssh_device = 1;
 
 	repeated SnmpDevice snmp_device = 2;
@@ -87,6 +97,8 @@ message RS_FindSubagents {
 	repeated OnvifDevice onvif_device = 5;
 
 	repeated RtspDevice rtsp_device = 6;
+
+	repeated WolDevice wol_device = 7;
 }
 
 message RQ_RegisterSubagent {
@@ -134,4 +146,11 @@ message RS_SnmpWalk {
 	}
 
 	repeated Data data = 1;
+}
+
+message RQ_SendWolPacket {
+	
+}
+
+enum RS_SendWolPacket {
 }
