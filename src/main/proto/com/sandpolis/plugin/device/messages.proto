@@ -9,9 +9,9 @@
 //============================================================================//
 syntax = "proto3";
 
-package plugin.device.msg;
+package plugin.device;
 
-option java_package = "com.sandpolis.plugin.device.msg";
+option java_package = "com.sandpolis.plugin.device";
 
 message RQ_FindSubagents {
 
