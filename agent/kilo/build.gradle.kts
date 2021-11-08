@@ -19,7 +19,7 @@ dependencies {
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.2")
 
 	// http://www.snmp4j.org
-	implementation("org.snmp4j:snmp4j:3.5.1")
+	implementation("org.snmp4j:snmp4j:3.6.0")
 
 	compileOnly(project.getParent()?.getParent()!!)
 
