@@ -8,7 +8,6 @@
 //                                                                            //
 //============================================================================//
 module com.sandpolis.plugin.device {
-	exports com.sandpolis.plugin.device.msg;
 	exports com.sandpolis.plugin.device;
 
 	requires com.google.protobuf;

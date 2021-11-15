@@ -21,9 +21,9 @@ import com.sandpolis.plugin.device.agent.kilo.arp.ArpScan;
 import com.sandpolis.plugin.device.agent.kilo.ipmi.IpmiScan;
 import com.sandpolis.plugin.device.agent.kilo.snmp.SnmpScan;
 import com.sandpolis.plugin.device.agent.kilo.ssh.SshScan;
-import com.sandpolis.plugin.device.msg.MsgDevice.RQ_FindSubagents;
-import com.sandpolis.plugin.device.msg.MsgDevice.RQ_FindSubagents.CommunicatorType;
-import com.sandpolis.plugin.device.msg.MsgDevice.RS_FindSubagents;
+import com.sandpolis.plugin.device.Messages.RQ_FindSubagents;
+import com.sandpolis.plugin.device.Messages.RQ_FindSubagents.CommunicatorType;
+import com.sandpolis.plugin.device.Messages.RS_FindSubagents;
 
 public final class DeviceExe extends Exelet {
 

@@ -13,6 +13,7 @@ package plugin.device;
 
 option java_package = "com.sandpolis.plugin.device";
 
+// Request that the receiver scan its local network for 
 message RQ_FindSubagents {
 
 	// An enumeration of all available communicator types.
@@ -26,7 +27,7 @@ message RQ_FindSubagents {
 		WOL   = 6;
 	}
 
-	// If specified, the search will be restricted to the given networks
+	// If specified, the search will be restricted to the given networks (CIDR)
 	repeated string network = 1;
 
 	// If specified, the search will be restricted to the given communicator types
@@ -153,4 +154,5 @@ message RQ_SendWolPacket {
 }
 
 enum RS_SendWolPacket {
+	SEND_WOL_PACKET_OK = 0;
 }
