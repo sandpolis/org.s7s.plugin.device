@@ -10,8 +10,7 @@
 
 plugins {
 	id("java-library")
-	id("sandpolis-java")
-	id("sandpolis-module")
+	id("com.sandpolis.build.module")
 }
 
 dependencies {
