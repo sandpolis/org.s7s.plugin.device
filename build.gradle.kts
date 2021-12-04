@@ -23,10 +23,8 @@ dependencies {
 
 	if (project.getParent() == null) {
 		api("com.sandpolis:core.instance:+")
-		api("com.sandpolis:core.net:+")
 	} else {
 		api(project(":module:com.sandpolis.core.instance"))
-		api(project(":module:com.sandpolis.core.net"))
 	}
 }
 

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.protobuf.MessageLiteOrBuilder;
-import com.sandpolis.core.net.exelet.Exelet;
+import com.sandpolis.core.instance.exelet.Exelet;
 import com.sandpolis.plugin.device.agent.kilo.arp.ArpScan;
 import com.sandpolis.plugin.device.agent.kilo.ipmi.IpmiScan;
 import com.sandpolis.plugin.device.agent.kilo.snmp.SnmpScan;
