@@ -23,9 +23,9 @@ dependencies {
 	compileOnly(project.getParent()?.getParent()!!)
 
 	if (project.getParent() == null) {
-		compileOnly("com.sandpolis:core.foreign:+")
+		compileOnly("com.sandpolis.core.integration.linux:+")
 	} else {
-		compileOnly(project(":module:com.sandpolis.core.foreign"))
+		compileOnly(project(":core:integration:com.sandpolis.core.integration.linux"))
 	}
 }
 

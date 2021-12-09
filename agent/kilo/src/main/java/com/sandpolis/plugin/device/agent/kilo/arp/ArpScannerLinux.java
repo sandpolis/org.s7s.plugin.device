@@ -9,14 +9,14 @@
 //============================================================================//
 package com.sandpolis.plugin.device.agent.kilo.arp;
 
-import static com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll.sll_family$set;
-import static com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll.sll_halen$set;
-import static com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll.sll_ifindex$set;
-import static com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll.sll_pkttype$set;
-import static com.sandpolis.core.foreign.linux.kernel.socket.socket_h.bind;
-import static com.sandpolis.core.foreign.linux.kernel.socket.socket_h.recvfrom;
-import static com.sandpolis.core.foreign.linux.kernel.socket.socket_h.sendto;
-import static com.sandpolis.core.foreign.linux.kernel.socket.socket_h.socket;
+import static com.sandpolis.core.integration.linux.if_arp.sockaddr_ll.sll_family$set;
+import static com.sandpolis.core.integration.linux.if_arp.sockaddr_ll.sll_halen$set;
+import static com.sandpolis.core.integration.linux.if_arp.sockaddr_ll.sll_ifindex$set;
+import static com.sandpolis.core.integration.linux.if_arp.sockaddr_ll.sll_pkttype$set;
+import static com.sandpolis.core.integration.linux.socket.socket_h.bind;
+import static com.sandpolis.core.integration.linux.socket.socket_h.recvfrom;
+import static com.sandpolis.core.integration.linux.socket.socket_h.sendto;
+import static com.sandpolis.core.integration.linux.socket.socket_h.socket;
 
 import java.net.InetAddress;
 import java.net.InterfaceAddress;
@@ -31,11 +31,11 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sandpolis.core.foreign.linux.kernel.if_arp.sockaddr_ll;
-import com.sandpolis.core.foreign.linux.kernel.if_ether.if_ether_h;
-import com.sandpolis.core.foreign.linux.kernel.if_packet.if_packet_h;
-import com.sandpolis.core.foreign.linux.kernel.inet.inet_h;
-import com.sandpolis.core.foreign.linux.kernel.socket.socket_h;
+import com.sandpolis.core.integration.linux.if_arp.sockaddr_ll;
+import com.sandpolis.core.integration.linux.if_ether.if_ether_h;
+import com.sandpolis.core.integration.linux.if_packet.if_packet_h;
+import com.sandpolis.core.integration.linux.inet.inet_h;
+import com.sandpolis.core.integration.linux.socket.socket_h;
 import com.sandpolis.core.foundation.S7SIPAddress;
 import com.sandpolis.plugin.device.agent.kilo.arp.ArpScan.ArpDevice;
 
