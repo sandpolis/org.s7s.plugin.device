@@ -12,9 +12,9 @@ plugins {
 	id("java-library")
 	id("com.sandpolis.build.module")
 	id("com.sandpolis.build.protobuf")
-	id("com.sandpolis.build.publish")
 	id("com.sandpolis.build.plugin")
 	id("com.sandpolis.build.codegen")
+	id("com.sandpolis.build.publish")
 }
 
 dependencies {
