@@ -6,18 +6,18 @@
 //  version 2. You may not use this file except in compliance with the MPLv2. //
 //                                                                            //
 //============================================================================//
+package org.s7s.plugin.device;
 
-rootProject.name = "org.s7s.plugin.device"
+import org.s7s.core.instance.state.st.STDocument;
+import org.s7s.core.instance.state.vst.AbstractSTDomainObject;
 
-include("agent:java")
+public class Device extends AbstractSTDomainObject {
 
-buildscript {
-	repositories {
-		maven {
-			url = uri("https://plugins.gradle.org/m2/")
-		}
+	Device(STDocument document) {
+		super(document);
 	}
-	dependencies {
-		classpath("org.s7s:org.s7s.build:+")
+
+	public String getId() {
+		return "";
 	}
 }

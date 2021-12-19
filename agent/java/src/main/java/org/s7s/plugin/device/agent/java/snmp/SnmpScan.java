@@ -6,18 +6,19 @@
 //  version 2. You may not use this file except in compliance with the MPLv2. //
 //                                                                            //
 //============================================================================//
+package org.s7s.plugin.device.agent.java.snmp;
 
-rootProject.name = "org.s7s.plugin.device"
+import java.util.Optional;
 
-include("agent:java")
+public final class SnmpScan {
 
-buildscript {
-	repositories {
-		maven {
-			url = uri("https://plugins.gradle.org/m2/")
-		}
+	public static record SnmpScanResult(String snmp_version) {
 	}
-	dependencies {
-		classpath("org.s7s:org.s7s.build:+")
+
+	public static Optional<SnmpScanResult> scanHost(String ip_address) {
+
+		// Use SNMP4j?
+		return Optional.empty();
 	}
+
 }

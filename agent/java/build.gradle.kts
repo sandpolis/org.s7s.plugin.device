@@ -7,17 +7,30 @@
 //                                                                            //
 //============================================================================//
 
-rootProject.name = "org.s7s.plugin.device"
+plugins {
+	id("java-library")
+	id("org.s7s.build.module")
+}
 
-include("agent:java")
+dependencies {
+	testImplementation("org.junit.jupiter:junit-jupiter-api:5.+")
+	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.+")
 
-buildscript {
-	repositories {
-		maven {
-			url = uri("https://plugins.gradle.org/m2/")
-		}
+	// http://www.snmp4j.org
+	implementation("org.snmp4j:snmp4j:3.5.1")
+
+	compileOnly(project.getParent()?.getParent()!!)
+
+	if (project.getParent() == null) {
+		compileOnly("org.s7s.core.integration.linux:+")
+	} else {
+		compileOnly(project(":core:integration:org.s7s.core.integration.linux"))
 	}
-	dependencies {
-		classpath("org.s7s:org.s7s.build:+")
+}
+
+eclipse {
+	project {
+		name = "org.s7s.plugin.device:agent:java"
+		comment = "org.s7s.plugin.device:agent:java"
 	}
 }

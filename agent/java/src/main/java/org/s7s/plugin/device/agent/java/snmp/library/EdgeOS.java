@@ -6,18 +6,17 @@
 //  version 2. You may not use this file except in compliance with the MPLv2. //
 //                                                                            //
 //============================================================================//
+package org.s7s.plugin.device.agent.java.snmp.library;
 
-rootProject.name = "org.s7s.plugin.device"
+import java.util.function.Function;
 
-include("agent:java")
+import org.snmp4j.smi.Variable;
 
-buildscript {
-	repositories {
-		maven {
-			url = uri("https://plugins.gradle.org/m2/")
-		}
-	}
-	dependencies {
-		classpath("org.s7s:org.s7s.build:+")
-	}
+import org.s7s.plugin.device.agent.java.snmp.library.mib.SNMPv2_MIB;
+
+public class EdgeOS implements SNMPv2_MIB {
+
+	Function<Variable, Integer> hrSWRunPerfMem = (variable) -> {
+		return variable.toInt() * 1000;
+	};
 }

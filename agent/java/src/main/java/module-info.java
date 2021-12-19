@@ -6,18 +6,17 @@
 //  version 2. You may not use this file except in compliance with the MPLv2. //
 //                                                                            //
 //============================================================================//
+module org.s7s.plugin.device.agent.java {
+	exports org.s7s.plugin.device.agent.java.snmp.library;
+	exports org.s7s.plugin.device.agent.java.arp;
 
-rootProject.name = "org.s7s.plugin.device"
+	requires com.google.protobuf;
+	requires org.s7s.core.instance;
+	requires org.s7s.plugin.device;
+	requires org.snmp4j;
+	requires org.slf4j;
 
-include("agent:java")
-
-buildscript {
-	repositories {
-		maven {
-			url = uri("https://plugins.gradle.org/m2/")
-		}
-	}
-	dependencies {
-		classpath("org.s7s:org.s7s.build:+")
-	}
+	requires jdk.incubator.foreign;
+	requires org.s7s.core.foundation;
+	requires org.s7s.core.integration.linux;
 }

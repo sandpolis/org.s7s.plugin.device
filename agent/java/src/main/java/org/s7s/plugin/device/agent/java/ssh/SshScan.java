@@ -6,18 +6,24 @@
 //  version 2. You may not use this file except in compliance with the MPLv2. //
 //                                                                            //
 //============================================================================//
+package org.s7s.plugin.device.agent.java.ssh;
 
-rootProject.name = "org.s7s.plugin.device"
+import java.net.Socket;
+import java.util.Optional;
 
-include("agent:java")
+public final class SshScan {
 
-buildscript {
-	repositories {
-		maven {
-			url = uri("https://plugins.gradle.org/m2/")
+	public static record SshScanResult(String ssh_banner, String fingerprint) {
+	}
+
+	public static Optional<SshScanResult> scanHost(String ip_address) {
+
+		try (var socket = new Socket(ip_address, 22); var in = socket.getInputStream()) {
+			String banner = new String(in.readAllBytes());
+			return Optional.of(new SshScanResult(banner, null));
+		} catch (Exception e) {
+			return Optional.empty();
 		}
 	}
-	dependencies {
-		classpath("org.s7s:org.s7s.build:+")
-	}
+
 }

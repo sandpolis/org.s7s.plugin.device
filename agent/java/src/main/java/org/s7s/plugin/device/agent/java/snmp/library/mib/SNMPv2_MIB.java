@@ -6,18 +6,24 @@
 //  version 2. You may not use this file except in compliance with the MPLv2. //
 //                                                                            //
 //============================================================================//
+package org.s7s.plugin.device.agent.java.snmp.library.mib;
 
-rootProject.name = "org.s7s.plugin.device"
+import java.util.function.Function;
 
-include("agent:java")
+import org.snmp4j.smi.Variable;
 
-buildscript {
-	repositories {
-		maven {
-			url = uri("https://plugins.gradle.org/m2/")
-		}
+public interface SNMPv2_MIB {
+
+	public @interface SNMP {
+		String value();
 	}
-	dependencies {
-		classpath("org.s7s:org.s7s.build:+")
-	}
+
+	@SNMP("1.3.6.1.2.1.1.1.0")
+	Function<Variable, String> sysDescr = Variable::toString;
+
+	@SNMP("1.3.6.1.2.1.1.3.0")
+	Function<Variable, Integer> sysUpTime = result -> {
+		return result.toInt() * 100;
+	};
+
 }
