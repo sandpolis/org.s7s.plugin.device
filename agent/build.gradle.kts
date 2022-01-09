@@ -20,17 +20,11 @@ dependencies {
 	implementation("org.snmp4j:snmp4j:3.5.1")
 
 	compileOnly(project.getParent()?.getParent()!!)
-
-	if (project.getParent() == null) {
-		compileOnly("org.s7s.core.integration.linux:+")
-	} else {
-		compileOnly(project(":core:integration:org.s7s.core.integration.linux"))
-	}
 }
 
 eclipse {
 	project {
-		name = "org.s7s.plugin.device:agent:java"
-		comment = "org.s7s.plugin.device:agent:java"
+		name = "org.s7s.plugin.device:agent"
+		comment = "org.s7s.plugin.device:agent"
 	}
 }
