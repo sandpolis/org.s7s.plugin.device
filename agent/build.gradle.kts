@@ -19,7 +19,7 @@ dependencies {
 	// http://www.snmp4j.org
 	implementation("org.snmp4j:snmp4j:3.5.1")
 
-	compileOnly(project.getParent()?.getParent()!!)
+	compileOnly(project.getParent()!!)
 }
 
 eclipse {
